@@ -17,6 +17,9 @@ library(lubridate)
 example_usage <- function() {
   a <- meld_iFit_S22i_CSV_TCX_to_better_TCX(chr.file = '2020_10_24_16_10_Santa_Maria_de_Vilalba_Ride,_Barcelona,_Spain')
   a <- meld_iFit_S22i_CSV_TCX_to_better_TCX(chr.file = '2020_10_24_16_10_Lupine_Trail_Steady-State_Ride,_Crested_Butte,_Colorado')
+  a <- meld_iFit_S22i_CSV_TCX_to_better_TCX(chr.file = '2020_10_26_11_10_Arakawa_River_Endurance_Ride,_Tokyo,_Japan')
+  a <- meld_iFit_S22i_CSV_TCX_to_better_TCX(chr.file = '2020_10_27_11_10_Hill_Repeats')
+  
 }
 #
 # This function is intended to parse the TCX file format that comes from iFit.
@@ -131,7 +134,7 @@ meld_iFit_S22i_CSV_TCX_to_better_TCX <- function(chr.path = '~/Downloads/', chr.
   dt[, trackpoint := paste0("<Trackpoint>\n  <Time>", fullTime, "</Time>\n")]
   dt[!is.na(AltitudeMeters), trackpoint := paste0(trackpoint, "  <AltitudeMeters>", AltitudeMeters, "</AltitudeMeters>\n")]
   dt[, trackpoint := paste0(trackpoint, "  <DistanceMeters>", Miles * 1609.34, "</DistanceMeters>\n")]
-  dt[i.HR != 0, trackpoint := paste0(trackpoint, "  <HeartRateBpm><Value>",i.HR, "</Value></HeartRateBpm>\n")]
+  dt[i.HR != 0, trackpoint := paste0(trackpoint, "  <HeartRateBpm><Value>",round(i.HR, 0), "</Value></HeartRateBpm>\n")]
   dt[, trackpoint := paste0(trackpoint, "  <Cadence>",i.RPM, "</Cadence>\n")]
   dt[, trackpoint := paste0(trackpoint, "  <Extensions><ns3:TPX>\n    <ns3:Speed>", MPH * 1609.34 / 3600, "</ns3:Speed>\n")]
   dt[, trackpoint := paste0(trackpoint, "    <ns3:Watts>", Watts,"</ns3:Watts>\n  </ns3:TPX></Extensions>\n")]
